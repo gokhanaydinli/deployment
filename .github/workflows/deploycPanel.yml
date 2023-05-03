@@ -1,0 +1,18 @@
+---
+deploy:
+  runs-on: ubuntu-latest
+  steps:
+  - uses: actions/checkout@v2
+  - name: Deploy to cPanel
+    run: |
+      echo "deployment:"
+      echo "  tasks:"
+      echo "    - export DEPLOYPATH=/home/gokhanaydinli/public_html"
+      echo "    - /usr/local/cpanel/3rdparty/bin/git https://github.com/gokhanaydinli/deployment.git \$DEPLOYPATH"
+      > .cpanel.yml
+      cat .cpanel.yml
+      /usr/local/cpanel/3rdparty/bin/git config --global user.name "gokhanaydinli"
+      /usr/local/cpanel/3rdparty/bin/git config --global user.email "gokhanaydinli1998@gmail.com"
+      /usr/local/cpanel/3rdparty/bin/git add .cpanel.yml
+      /usr/local/cpanel/3rdparty/bin/git commit -m "Add cPanel deployment config file"
+      /usr/local/cpanel/3rdparty/bin/git push origin HEAD:main
